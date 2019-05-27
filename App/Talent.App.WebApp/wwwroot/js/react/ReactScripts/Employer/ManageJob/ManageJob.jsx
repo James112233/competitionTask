@@ -51,12 +51,38 @@ export default class ManageJob extends React.Component {
     }
 
     componentDidMount() {
-        this.init();
+        this.loadData();
     };
 
-    loadData(callback) {
-        var link = 'http://localhost:51689/listing/listing/getSortedEmployerJobs';
+    loadData() {
+        //var link = 'http://localhost:51689/listing/listing/getSortedEmployerJobs';
         var cookies = Cookies.get('talentAuthToken');
+        var employId = "5c61e09de9f23a403cf30641";
+        $.ajax({
+            url: 'http://localhost:51689/listing/listing/getSortedEmployerJobs?employerId=' + employId,
+            //url: 'http://localhost:51689/listing/listing/getSortedEmployerJobs',
+            headers: {
+                'Authorization': 'Bearer ' + cookies,
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (res) {
+                let jobData = null;
+                if (res.myJobs) {
+
+                    console.log("jobData: ", res.myJobs)
+                } else {
+                    console.log("Nothing", res.myJobs)
+                }
+                //this.updateWithoutSave(employerData)
+            }.bind(this),
+            error: function (res) {
+                console.log(res.status)
+            }
+        })
+        this.init();
        // your ajax call and other logic goes here
     }
 
@@ -77,7 +103,11 @@ export default class ManageJob extends React.Component {
     render() {
         return (
             <BodyWrapper reload={this.init} loaderData={this.state.loaderData}>
-               <div className ="ui container">Your table goes here</div>
+                <div className="ui container">Your table goes here
+                    <div className="ui container">
+
+                    </div>
+                </div>
             </BodyWrapper>
         )
     }
