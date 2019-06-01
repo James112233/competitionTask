@@ -10,6 +10,7 @@ export class IndividualDetailSection extends Component {
             Object.assign({}, props.details)
             : {
                 firstName: "",
+                lastName:"",
                 email: "",
                 phone: ""
             }

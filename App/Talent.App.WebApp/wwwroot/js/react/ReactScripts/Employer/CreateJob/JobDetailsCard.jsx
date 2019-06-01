@@ -17,7 +17,7 @@ export class JobDetailsCard extends React.Component {
         this.updateJob = this.updateJob.bind(this);
     };
     componentDidMount() {
-
+        console.log("JobDetailsCard")
     };
 
     handleChange(event) {

@@ -5,7 +5,7 @@ import LoggedInBanner from '../../Layout/Banner/LoggedInBanner.jsx';
 import { LoggedInNavigation } from '../../Layout/LoggedInNavigation.jsx';
 import { JobSummaryCard } from './JobSummaryCard.jsx';
 import { BodyWrapper, loaderData } from '../../Layout/BodyWrapper.jsx';
-import { Pagination, Icon, Dropdown, Checkbox, Accordion, Form, Segment } from 'semantic-ui-react';
+import { Pagination, Icon, Dropdown, Checkbox, Accordion, Form, Segment, Card } from 'semantic-ui-react';
 
 export default class ManageJob extends React.Component {
     constructor(props) {
@@ -15,6 +15,7 @@ export default class ManageJob extends React.Component {
         loader.allowedUsers.push("Recruiter");
         //console.log(loader)
         this.state = {
+            jobDetails: [],
             loadJobs: [],
             loaderData: loader,
             activePage: 1,
@@ -71,10 +72,11 @@ export default class ManageJob extends React.Component {
             success: function (res) {
                 let jobData = null;
                 if (res.myJobs) {
-
-                    console.log("jobData: ", res.myJobs)
+                    jobData = res.myJobs
+                    this.setState({ jobDetails: jobData })
+                    console.log("myJobs:", this.state.jobDetails);
                 } else {
-                    console.log("Nothing", res.myJobs)
+                    console.log("Nothing", res)
                 }
                 //this.updateWithoutSave(employerData)
             }.bind(this),
@@ -85,6 +87,7 @@ export default class ManageJob extends React.Component {
         this.init();
        // your ajax call and other logic goes here
     }
+
 
     loadNewData(data) {
         var loader = this.state.loaderData;
@@ -104,8 +107,10 @@ export default class ManageJob extends React.Component {
         return (
             <BodyWrapper reload={this.init} loaderData={this.state.loaderData}>
                 <div className="ui container">Your table goes here
-                    <div className="ui container">
-
+                    <div className="ui container">List of Jobs
+                        <JobSummaryCard
+                            jobDetails={this.state.jobDetails} 
+                        />
                     </div>
                 </div>
             </BodyWrapper>
